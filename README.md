@@ -2,6 +2,8 @@
 
 A live, local web dashboard for [ccusage](https://github.com/ryoppippi/ccusage). See what Claude Code, Codex, Gemini, OpenCode, Cline, Copilot and other AI coding agents cost you, updated in real time, and turn it into a share card for your story.
 
+> Unofficial community project. Not affiliated with ccusage or its author.
+
 ![Dashboard](docs/dashboard.png)
 
 ## Features
