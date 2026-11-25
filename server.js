@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// ccusage-dashboard: live local web dashboard for ccusage.
-// Usage: ccusage-dashboard [run|start|stop|restart|status]
+// ccusage-board: live local web dashboard for ccusage.
+// Usage: ccusage-board [run|start|stop|restart|status]
 const http = require('node:http');
 const fs = require('node:fs');
 const os = require('node:os');
@@ -119,7 +119,7 @@ async function start() {
     await new Promise((r) => setTimeout(r, 250));
     if (!readPid()) break;
     if (await fetch(URL_ + '/api/usage').then((r) => r.ok, () => false)) {
-      return console.log(`ccusage dashboard running in the background → ${URL_}\nStop it with: ccusage-dashboard stop`);
+      return console.log(`ccusage dashboard running in the background → ${URL_}\nStop it with: ccusage-board stop`);
     }
   }
   console.error(`Failed to start. See ${LOG_FILE}`);
@@ -139,14 +139,14 @@ function status() {
   console.log(running ? `Running → ${running.url}  (pid ${running.pid}, log ${LOG_FILE})` : 'Not running.');
 }
 
-const HELP = `ccusage-dashboard — live local dashboard for ccusage
+const HELP = `ccusage-board — live local dashboard for ccusage
 
 Usage:
-  ccusage-dashboard            run in the foreground (Ctrl+C to quit)
-  ccusage-dashboard start      run in the background
-  ccusage-dashboard stop       stop the background server
-  ccusage-dashboard restart    restart the background server
-  ccusage-dashboard status     show whether it is running
+  ccusage-board            run in the foreground (Ctrl+C to quit)
+  ccusage-board start      run in the background
+  ccusage-board stop       stop the background server
+  ccusage-board restart    restart the background server
+  ccusage-board status     show whether it is running
 
 Env: PORT (3939), HOST (127.0.0.1), INTERVAL seconds (15), CCUSAGE_BIN`;
 

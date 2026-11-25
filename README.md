@@ -1,4 +1,4 @@
-# ccusage-dashboard
+# ccusage-board
 
 A live, local web dashboard for [ccusage](https://github.com/ryoppippi/ccusage). See what Claude Code, Codex, Gemini, OpenCode, Cline, Copilot and other AI coding agents cost you, updated in real time, and turn it into a share card for your story.
 
@@ -42,14 +42,14 @@ Requires Node.js 18 or newer. You don't need to install ccusage separately becau
 ### Try it once
 
 ```bash
-npx ccusage-dashboard
+npx ccusage-board
 ```
 
 ### Install globally and run in the background
 
 ```bash
-npm install -g ccusage-dashboard
-ccusage-dashboard start
+npm install -g ccusage-board
+ccusage-board start
 ```
 
 Then open **http://127.0.0.1:3939** any time.
@@ -58,17 +58,17 @@ Then open **http://127.0.0.1:3939** any time.
 
 | Command | What it does |
 |---|---|
-| `ccusage-dashboard` | Run in the foreground (Ctrl+C to quit) |
-| `ccusage-dashboard start` | Run in the background |
-| `ccusage-dashboard stop` | Stop the background server |
-| `ccusage-dashboard restart` | Restart the background server |
-| `ccusage-dashboard status` | Show whether it is running, plus its URL and log file |
+| `ccusage-board` | Run in the foreground (Ctrl+C to quit) |
+| `ccusage-board start` | Run in the background |
+| `ccusage-board stop` | Stop the background server |
+| `ccusage-board restart` | Restart the background server |
+| `ccusage-board status` | Show whether it is running, plus its URL and log file |
 
-The background server writes its PID and log to `~/.ccusage-dashboard/`. It keeps running until you stop it or restart your computer. After a reboot, run `ccusage-dashboard start` again.
+The background server writes its PID and log to `~/.ccusage-dashboard/`. It keeps running until you stop it or restart your computer. After a reboot, run `ccusage-board start` again.
 
 ## Configuration
 
-Set these with environment variables, for example `PORT=4000 ccusage-dashboard start`.
+Set these with environment variables, for example `PORT=4000 ccusage-board start`.
 
 | Variable | Default | Description |
 |---|---|---|

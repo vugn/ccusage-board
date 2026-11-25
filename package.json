@@ -1,9 +1,9 @@
 {
-  "name": "ccusage-dashboard",
+  "name": "ccusage-board",
   "version": "0.1.0",
   "description": "Live local web dashboard for ccusage — Claude Code, Codex, Gemini & other AI coding agent usage and cost",
   "bin": {
-    "ccusage-dashboard": "server.js"
+    "ccusage-board": "server.js"
   },
   "files": [
     "server.js",
