@@ -64,7 +64,7 @@ Then open **http://127.0.0.1:3939** any time.
 | `ccusage-board restart` | Restart the background server |
 | `ccusage-board status` | Show whether it is running, plus its URL and log file |
 
-The background server writes its PID and log to `~/.ccusage-dashboard/`. It keeps running until you stop it or restart your computer. After a reboot, run `ccusage-board start` again.
+The background server writes its PID and log to `~/.ccusage-board/`. It keeps running until you stop it or restart your computer. After a reboot, run `ccusage-board start` again.
 
 ## Configuration
 
@@ -92,8 +92,8 @@ Set these with environment variables, for example `PORT=4000 ccusage-board start
 ## Development
 
 ```bash
-git clone https://github.com/vugn/ccusage-dashboard
-cd ccusage-dashboard
+git clone https://github.com/vugn/ccusage-board
+cd ccusage-board
 npm install
 npm start
 ```

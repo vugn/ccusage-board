@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ccusage dashboard</title>
+<title>ccusage-board</title>
 <style>
   :root {
     --bg: #0e0f11; --panel: #16181b; --line: #24272c; --text: #e8e6e1; --muted: #8b8f96;
@@ -86,7 +86,7 @@
 <body>
 <main>
   <header>
-    <h1><span>cc</span>usage dashboard</h1>
+    <h1><span>cc</span>usage board</h1>
     <div class="status" role="status"><i class="dot" id="dot"></i><span id="updated">connecting…</span></div>
     <div class="spacer"></div>
     <div class="tabs" id="range" aria-label="Date range">
@@ -115,7 +115,7 @@
 
   <footer>
     Open source · made by <a href="https://github.com/vugn">Gusti Randa</a> ·
-    <a href="https://github.com/vugn/ccusage-dashboard">★ ccusage-dashboard on GitHub</a><br>
+    <a href="https://github.com/vugn/ccusage-board">★ ccusage-board on GitHub</a><br>
     Data from <a href="https://github.com/ryoppippi/ccusage">ccusage</a>, read locally. Nothing leaves your machine.
   </footer>
 </main>
@@ -294,7 +294,7 @@ const FORMATS = {
 };
 const MONO = '"SF Mono", "JetBrains Mono", Menlo, Consolas, monospace';
 const SANS = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-const REPO = 'github.com/vugn/ccusage-dashboard';
+const REPO = 'github.com/vugn/ccusage-board';
 let fmt = 'story', grain;
 
 function cardStats() {
@@ -409,7 +409,7 @@ function drawCard(canvas, key) {
 
   const footer = { h: 40 * s, draw(x, y, cw) {
     c.font = `500 ${22 * s}px ${MONO}`; c.fillStyle = MUTED;
-    c.fillText('made with ccusage-dashboard', x, y + 30 * s); right(REPO, x + cw, y + 30 * s);
+    c.fillText('made with ccusage-board', x, y + 30 * s); right(REPO, x + cw, y + 30 * s);
   } };
 
   // Lay sections top to bottom, spreading leftover height evenly between them.

@@ -11,7 +11,7 @@ const PORT = Number(process.env.PORT) || 3939;
 const HOST = process.env.HOST || '127.0.0.1'; // usage data is private: localhost only by default
 const INTERVAL = (Number(process.env.INTERVAL) || 15) * 1000;
 const URL_ = `http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}`;
-const STATE_DIR = path.join(os.homedir(), '.ccusage-dashboard');
+const STATE_DIR = path.join(os.homedir(), '.ccusage-board');
 const PID_FILE = path.join(STATE_DIR, 'server.pid');
 const LOG_FILE = path.join(STATE_DIR, 'server.log');
 
@@ -90,7 +90,7 @@ function serve() {
     process.exit(1);
   });
   server.listen(PORT, HOST, () => {
-    console.log(`ccusage dashboard → ${URL_}  (refresh every ${INTERVAL / 1000}s)`);
+    console.log(`ccusage-board → ${URL_}  (refresh every ${INTERVAL / 1000}s)`);
     refresh();
     setInterval(refresh, INTERVAL);
   });
@@ -119,7 +119,7 @@ async function start() {
     await new Promise((r) => setTimeout(r, 250));
     if (!readPid()) break;
     if (await fetch(URL_ + '/api/usage').then((r) => r.ok, () => false)) {
-      return console.log(`ccusage dashboard running in the background → ${URL_}\nStop it with: ccusage-board stop`);
+      return console.log(`ccusage-board running in the background → ${URL_}\nStop it with: ccusage-board stop`);
     }
   }
   console.error(`Failed to start. See ${LOG_FILE}`);
