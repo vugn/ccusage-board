@@ -1,0 +1,19 @@
+node_modules/
+.DS_Store
+*.log
+
+# AI assistant / agent files
+.claude/
+.agents/
+.agent/
+.cursor/
+.codex/
+.gemini/
+.windsurf/
+.aider*
+skills/
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+RTK.md
+.mcp.json

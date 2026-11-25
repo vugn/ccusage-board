@@ -1,0 +1,42 @@
+{
+  "name": "ccusage-dashboard",
+  "version": "0.1.0",
+  "description": "Live local web dashboard for ccusage — Claude Code, Codex, Gemini & other AI coding agent usage and cost",
+  "bin": {
+    "ccusage-dashboard": "server.js"
+  },
+  "files": [
+    "server.js",
+    "public"
+  ],
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "ccusage",
+    "claude-code",
+    "codex",
+    "dashboard",
+    "token-usage",
+    "cost",
+    "share",
+    "claude",
+    "ai"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "ccusage": "^20.1.2"
+  },
+  "author": "Gusti Randa (https://github.com/vugn)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vugn/ccusage-dashboard.git"
+  },
+  "homepage": "https://github.com/vugn/ccusage-dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/vugn/ccusage-dashboard/issues"
+  }
+}
