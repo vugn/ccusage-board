@@ -9,7 +9,8 @@ A live, local web dashboard for [ccusage](https://github.com/ryoppippi/ccusage).
 ## Features
 
 - **Live.** Re-reads your local usage every 15 seconds and pushes updates to the page. No reloads.
-- **Runs in the background.** Start it once, then just open `http://127.0.0.1:3939` whenever you want to check.
+- **Opens itself.** Run `ccusage-board` and pick: open in browser, run in the background, or terminal only.
+- **Runs in the background.** Start it once and it keeps running after you close the terminal. Then just open `http://127.0.0.1:3939` whenever you want to check.
 - **Every agent in one view.** Daily cost chart stacked by agent, per-agent and per-model breakdowns, and 7d / 30d / 90d / all-time ranges.
 - **Active 5-hour block.** Spend so far, projected cost, burn rate and time left.
 - **Share cards.** Export your usage as a PNG sized for Instagram, TikTok and WhatsApp stories, feed posts, or widescreen. Download it, copy it to the clipboard, or use the native share sheet on supported devices.
@@ -37,34 +38,58 @@ Click **Share** in the dashboard and pick a format. The card uses the currently 
 
 ## Install
 
-Requires Node.js 18 or newer. You don't need to install ccusage separately because it comes bundled.
-
-### Try it once
+Requires Node.js 18 or newer. ccusage comes bundled, so you don't need to install it separately.
 
 ```bash
 npx ccusage-board
 ```
 
-### Install globally and run in the background
+or install it globally:
 
 ```bash
 npm install -g ccusage-board
-ccusage-board start
+ccusage-board
 ```
 
-Then open **http://127.0.0.1:3939** any time.
+## Usage
+
+Run `ccusage-board` with no arguments and it asks how you want to run it:
+
+```
+  ccusage-board  live dashboard for your AI coding agent usage
+
+  1) Open in browser     run here and open http://127.0.0.1:3939  (Ctrl+C to stop)
+  2) Run in background   keep running after you close this terminal, then open the browser
+  3) Terminal only       run here without opening a browser
+
+  Choose 1-3 [1]:
+```
+
+| Choice | What happens |
+|---|---|
+| **1. Open in browser** (default) | Starts the server in this terminal and opens the dashboard in your browser. Press Ctrl+C to stop. |
+| **2. Run in background** | Starts the server as a background process and opens your browser. It keeps running after you close the terminal, until you run `ccusage-board stop`. Bookmark **http://127.0.0.1:3939** and check it any time. |
+| **3. Terminal only** | Starts the server in this terminal without opening a browser. |
+
+If a background server is already running, `ccusage-board` skips the menu and just opens the dashboard.
 
 ## Commands
 
+Skip the menu with a command:
+
 | Command | What it does |
 |---|---|
-| `ccusage-board` | Run in the foreground (Ctrl+C to quit) |
-| `ccusage-board start` | Run in the background |
+| `ccusage-board` | Show the menu above |
+| `ccusage-board run` | Run in the foreground without asking (Ctrl+C to quit) |
+| `ccusage-board start` | Run in the background until you stop it |
+| `ccusage-board open` | Open the running dashboard in your browser |
 | `ccusage-board stop` | Stop the background server |
 | `ccusage-board restart` | Restart the background server |
 | `ccusage-board status` | Show whether it is running, plus its URL and log file |
 
-The background server writes its PID and log to `~/.ccusage-board/`. It keeps running until you stop it or restart your computer. After a reboot, run `ccusage-board start` again.
+The background server writes its PID and log to `~/.ccusage-board/`. It doesn't come back by itself after a reboot, so run `ccusage-board start` again.
+
+When the output isn't a terminal (for example under a process manager), `ccusage-board` runs in the foreground without the menu.
 
 ## Configuration
 

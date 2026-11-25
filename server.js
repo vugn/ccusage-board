@@ -40,7 +40,7 @@ function ccusage(args) {
 }
 
 // ---------- server ----------
-function serve() {
+function serve(open = false) {
   let state = { updatedAt: null, error: 'loading…' };
   let stateJson = JSON.stringify(state);
   const clients = new Set();
@@ -93,7 +93,15 @@ function serve() {
     console.log(`ccusage-board → ${URL_}  (refresh every ${INTERVAL / 1000}s)`);
     refresh();
     setInterval(refresh, INTERVAL);
+    if (open) openBrowser(URL_);
   });
+}
+
+function openBrowser(url) {
+  const [cmd, args] = process.platform === 'darwin' ? ['open', [url]]
+    : process.platform === 'win32' ? ['cmd', ['/c', 'start', '', url]]
+    : ['xdg-open', [url]];
+  spawn(cmd, args, { stdio: 'ignore', detached: true }).on('error', () => console.log(`Open ${url} in your browser.`)).unref();
 }
 
 // ---------- background daemon ----------
@@ -109,7 +117,7 @@ function readPid() {
 
 async function start() {
   const running = readPid();
-  if (running) return console.log(`Already running → ${running.url}  (pid ${running.pid})`);
+  if (running) { console.log(`Already running → ${running.url}  (pid ${running.pid})`); return true; }
   fs.mkdirSync(STATE_DIR, { recursive: true });
   const log = fs.openSync(LOG_FILE, 'a');
   const child = spawn(process.execPath, [__filename, 'run'], { detached: true, stdio: ['ignore', log, log], env: process.env, windowsHide: true });
@@ -119,11 +127,43 @@ async function start() {
     await new Promise((r) => setTimeout(r, 250));
     if (!readPid()) break;
     if (await fetch(URL_ + '/api/usage').then((r) => r.ok, () => false)) {
-      return console.log(`ccusage-board running in the background → ${URL_}\nStop it with: ccusage-board stop`);
+      console.log(`ccusage-board running in the background → ${URL_}\nIt keeps running after you close this terminal. Stop it with: ccusage-board stop`);
+      return true;
     }
   }
   console.error(`Failed to start. See ${LOG_FILE}`);
   process.exitCode = 1;
+  return false;
+}
+
+// Interactive launcher shown when run with no command in a terminal.
+async function menu() {
+  const running = readPid();
+  if (running) {
+    console.log(`ccusage-board is already running in the background → ${running.url}`);
+    return openBrowser(running.url);
+  }
+  const rl = require('node:readline/promises').createInterface({ input: process.stdin, output: process.stdout });
+  rl.on('SIGINT', () => { rl.close(); process.exit(130); });
+  console.log(`
+  \x1b[1m\x1b[33mcc\x1b[0m\x1b[1musage-board\x1b[0m  live dashboard for your AI coding agent usage
+
+  1) Open in browser     run here and open ${URL_}  (Ctrl+C to stop)
+  2) Run in background   keep running after you close this terminal, then open the browser
+  3) Terminal only       run here without opening a browser
+`);
+  let choice;
+  while (!['1', '2', '3'].includes(choice)) choice = (await rl.question('  Choose 1-3 [1]: ')).trim() || '1';
+  rl.close();
+  console.log();
+  if (choice === '2') { if (await start()) openBrowser(URL_); }
+  else serve(choice === '1');
+}
+
+function openCmd() {
+  const running = readPid();
+  if (!running) { console.log('Not running. Start it with: ccusage-board start'); process.exitCode = 1; return; }
+  openBrowser(running.url);
 }
 
 function stop() {
@@ -142,17 +182,21 @@ function status() {
 const HELP = `ccusage-board — live local dashboard for ccusage
 
 Usage:
-  ccusage-board            run in the foreground (Ctrl+C to quit)
-  ccusage-board start      run in the background
+  ccusage-board            choose: open in browser, run in background, or terminal only
+  ccusage-board run        run in the foreground without asking (Ctrl+C to quit)
+  ccusage-board start      run in the background (keeps running until you stop it)
+  ccusage-board open       open the running dashboard in your browser
   ccusage-board stop       stop the background server
   ccusage-board restart    restart the background server
   ccusage-board status     show whether it is running
 
 Env: PORT (3939), HOST (127.0.0.1), INTERVAL seconds (15), CCUSAGE_BIN`;
 
-const cmd = process.argv[2] || 'run';
+const cmd = process.argv[2] || (process.stdin.isTTY && process.stdout.isTTY ? 'menu' : 'run');
 ({
-  run: serve,
+  menu,
+  run: () => serve(),
+  open: openCmd,
   start,
   stop,
   status,
